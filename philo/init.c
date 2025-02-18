@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:28:07 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 16:18:54 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:29:48 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,13 @@ int	check_inits(t_simulation *sim, t_philosopher **philo, int ac, char **av)
 		printf("Error\nArguments must be numeric and positive\n");
 		return(1);
 	}
-	if (init_simulation_variables(&sim, ac, av))
+	if (init_simulation_variables(sim, ac, av))
 		return (1);
-	if (init_simulation_mutex(&sim))
+	if (init_simulation_mutex(sim))
 		return (1);
-	if (init_forks_mutex(&sim))
+	if (init_forks_mutex(sim))
 		return (1);
-	if (init_philosophers(&sim, &philo))
+	if (init_philosophers(sim, philo))
 		return (1);
 	return (0);
 }

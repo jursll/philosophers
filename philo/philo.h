@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:57:05 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 16:19:32 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:48:16 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,7 @@ int		init_simulation_mutex(t_simulation *sim);
 int		init_forks_mutex(t_simulation *sim);
 int		init_philosophers(t_simulation *sim, t_philosopher **philo);
 int		check_inits(t_simulation *sim, t_philosopher **philo, int ac, char **av);
+void	print_message(t_simulation *sim, int id, const char *msg);
+void	philosopher_routine(void *arg);
 
 #endif

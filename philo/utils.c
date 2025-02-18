@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:53:03 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 16:11:35 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:46:19 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,14 @@ long	get_time_in_ms(void)
 		return (0);
 	ms = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	return (ms);
+}
+
+void	print_message(t_simulation *sim, int id, const char *msg)
+{
+	long time;
+
+	pthread_mutex_lock(&sim->mtx_print);
+	time = get_time_in_ms() - sim->start_time;
+	printf("%ld %d %s\n", time, id, msg);
+	pthread_mutex_unlock(&sim->mtx_print);
 }
