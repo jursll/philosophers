@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:57:05 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 19:02:06 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:38:05 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ int		check_inits(t_simulation *sim, t_philosopher **philo, int ac, char **av);
 void	print_message(t_simulation *sim, int id, const char *msg);
 void	*philosopher_routine(void *arg);
 void	*monitor_routine(void *arg);
+void	sleep_with_checks(t_simulation *sim, long sleep_time_ms);
 
 #endif
