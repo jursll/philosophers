@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:57:05 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 15:29:53 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:19:32 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ typedef struct 		s_philosopher
 }					t_philosopher;
 
 int		ft_isstrnum(char *str);
+long	get_time_in_ms(void);
 int		init_simulation_variables(t_simulation *sim, int ac, char **av);
 int		init_simulation_mutex(t_simulation *sim);
 int		init_forks_mutex(t_simulation *sim);
 int		init_philosophers(t_simulation *sim, t_philosopher **philo);
-
-long	get_time_in_ms(void);
+int		check_inits(t_simulation *sim, t_philosopher **philo, int ac, char **av);
 
 #endif

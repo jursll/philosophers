@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:28:07 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 15:24:25 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:18:54 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,29 @@ int	init_philosophers(t_simulation *sim, t_philosopher **philo)
 			(*philo)[i].left_fork = &sim->forks[i - 1];
 		i++;
 	}
+	return (0);
+}
+
+int	check_inits(t_simulation *sim, t_philosopher **philo, int ac, char **av)
+{
+	if (!ft_isstrnum(av[1]) || !ft_isstrnum(av[2])
+			|| !ft_isstrnum(av[3]) || !ft_isstrnum(av[4]))
+	{
+		printf("Error\nArguments must be numeric and positive\n");
+		return (1);
+	}
+	if (ac == 6 && !ft_isstrnum(av[5]))
+	{
+		printf("Error\nArguments must be numeric and positive\n");
+		return(1);
+	}
+	if (init_simulation_variables(&sim, ac, av))
+		return (1);
+	if (init_simulation_mutex(&sim))
+		return (1);
+	if (init_forks_mutex(&sim))
+		return (1);
+	if (init_philosophers(&sim, &philo))
+		return (1);
 	return (0);
 }

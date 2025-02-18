@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:28:07 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 15:51:29 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 16:21:49 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,7 @@ int	main(int ac, char **av)
 		printf("Usage: ./%s nb_philos time_to_die time_to_eat time_to_sleep [nb_meals]\n", av[0]);
 		return (1);
 	}
-	if (!ft_isstrnum(av[1]) || !ft_isstrnum(av[2])
-			|| !ft_isstrnum(av[3]) || !ft_isstrnum(av[4]))
-	{
-		printf("Error\nArguments must be numeric\n");
-		return (1);
-	}
-	if (ac == 6 && !ft_isstrnum(av[5]))
-	{
-		printf("Error\nArguments must be numeric\n");
-		return(1);
-	}
-	if (init_simulation_variables(&sim, ac, av))
-		return (1);
-	if (init_simulation_mutex(&sim))
-		return (1);
-	if (init_forks_mutex(&sim))
-		return (1);
-	if (init_philosophers(&sim, &philo))
+	if (check_inits(&sim, &philo, ac, av))
 		return (1);
 
 	printf("Simulation and philosphers initialized successfully\n");
