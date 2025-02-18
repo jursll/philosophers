@@ -6,7 +6,7 @@
 #    By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/30 14:28:19 by julrusse          #+#    #+#              #
-#    Updated: 2025/01/30 15:25:07 by julrusse         ###   ########.fr        #
+#    Updated: 2025/02/07 10:54:45 by julrusse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CFLAGS =-Wall -Wextra -Werror
 OBJ_DIR = obj
 
 SRC =	main.c \
+		init.c \
 		utils.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))

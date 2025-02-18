@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:28:07 by julrusse          #+#    #+#             */
-/*   Updated: 2025/01/30 15:29:34 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/07 11:28:35 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,31 @@
 
 int	main(int ac, char **av)
 {
-	if (ac != 6)
-		printf("Usage: Nphilo ttd tte tts Neat_per_philo");
+	t_simulation	sim;
+//	t_philosopher	philo;
+//	int				i;
+
+	if (ac != 5 && ac != 6)
+	{
+		printf("Usage: ./%s nb_philos time_to_die time_to_eat time_to_sleep [nb_meals]\n", av[0]);
+		return (1);
+	}
+	if (init_simulation_variables(&sim, ac, av))
+		return (1);
+	if (init_simulation_mutex(&sim))
+		return (1);
+	if (init_forks_mutex(&sim))
+		return (1);
+
+	printf("Simulation initialized successfully\n");
+	printf("Numbers of philosophers: %d\n", sim.nb_philos);
+	printf("Time to die: %ld\n", sim.time_to_die);
+	printf("Time to eat: %ld\n", sim.time_to_eat);
+	printf("Time to sleep: %ld\n", sim.time_to_sleep);
+	if (sim.nb_meals != -1)
+		printf("Number of meals: %d\n", sim.nb_meals);
+	else
+		printf("Number of meals: illimited\n");
+
+	return (0);
 }
