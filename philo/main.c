@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:28:07 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 19:03:59 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:57:25 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 	{
-		printf("Usage: ./%s nb_philos time_to_die time_to_eat time_to_sleep [nb_meals]\n", av[0]);
+		printf("Usage: ./%s nb_philos die eat sleep [nb_meals]\n", av[0]);
 		return (1);
 	}
 	if (check_inits(&sim, &philo, ac, av))
@@ -30,9 +30,10 @@ int	main(int ac, char **av)
 	i = 0;
 	while (i < sim.nb_philos)
 	{
-		if (pthread_create(&philo[i].thread, NULL, philosopher_routine, &philo[i]))
+		if (pthread_create(&philo[i].thread, NULL,
+				philosopher_routine, &philo[i]))
 		{
-			printf("Error\nFailed to create thread for philosopher %d\n", i + 1);
+			printf("Error\nFailed to create thread for philo %d\n", i + 1);
 			while (i-- > 0)
 				pthread_join(philo[i].thread, NULL);
 			i = 0;

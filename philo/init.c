@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:28:07 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 16:29:48 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:54:29 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	init_simulation_variables(t_simulation *sim, int ac, char **av)
 	sim->time_to_sleep = atoi(av[4]);
 	if (ac == 6)
 		sim->nb_meals = atoi(av[5]);
-	else sim->nb_meals = -1;
+	else
+		sim->nb_meals = -1;
 	sim->simulation_end = 0;
 	sim->start_time = get_time_in_ms();
 	return (0);
@@ -105,7 +106,7 @@ int	init_philosophers(t_simulation *sim, t_philosopher **philo)
 int	check_inits(t_simulation *sim, t_philosopher **philo, int ac, char **av)
 {
 	if (!ft_isstrnum(av[1]) || !ft_isstrnum(av[2])
-			|| !ft_isstrnum(av[3]) || !ft_isstrnum(av[4]))
+		|| !ft_isstrnum(av[3]) || !ft_isstrnum(av[4]))
 	{
 		printf("Error\nArguments must be numeric and positive\n");
 		return (1);
@@ -113,7 +114,7 @@ int	check_inits(t_simulation *sim, t_philosopher **philo, int ac, char **av)
 	if (ac == 6 && !ft_isstrnum(av[5]))
 	{
 		printf("Error\nArguments must be numeric and positive\n");
-		return(1);
+		return (1);
 	}
 	if (init_simulation_variables(sim, ac, av))
 		return (1);

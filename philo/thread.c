@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 17:47:14 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 19:42:08 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:54:55 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	*philosopher_routine(void *arg)
 		usleep(100);
 	while (!sim->simulation_end)
 	{
-		// take forks
 		if (philo->id % 2 == 0)
 		{
 			pthread_mutex_lock(philo->left_fork);
@@ -38,26 +37,20 @@ void	*philosopher_routine(void *arg)
 			pthread_mutex_lock(philo->left_fork);
 			print_message(sim, philo->id, "has taken a fork\n");
 		}
-		// eat
 		philo->last_meal_time = get_time_in_ms();
 		print_message(sim, philo->id, "is eating\n");
 		sleep_with_checks(sim, sim->time_to_eat);
 		philo->nb_meals_eaten++;
-		// let fork
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(philo->left_fork);
-		// check if done
 		if (sim->simulation_end)
-			break;
-		// sleep
+			break ;
 		print_message(sim, philo->id, "is sleeping\n");
 		sleep_with_checks(sim, sim->time_to_sleep);
-		// check if done
 		if (sim->simulation_end)
-			break;
-		// think
+			break ;
 		print_message(sim, philo->id, "is thinking\n");
-		usleep(100); /*optional*/
+		usleep(100);
 	}
 	return (NULL);
 }
