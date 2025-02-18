@@ -6,13 +6,13 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 17:47:14 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 18:08:21 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:11:46 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	philosopher_routine(void *arg)
+void	*philosopher_routine(void *arg)
 {
 	t_simulation	*sim;
 	t_philosopher	*philo;
@@ -22,10 +22,20 @@ void	philosopher_routine(void *arg)
 	while (!sim->simulation_end)
 	{
 		// take forks
-		pthread_mutex_lock(philo->right_fork);
-		print_message(sim, philo->id, "has taken a fork\n");
-		pthread_mutex_lock(philo->left_fork);
-		print_message(sim, philo->id, "has taken a fork\n");
+		if (philo->id % 2 == 0)
+		{
+			pthread_mutex_lock(philo->left_fork);
+			print_message(sim, philo->id, "has taken a fork\n");
+			pthread_mutex_lock(philo->right_fork);
+			print_message(sim, philo->id, "has taken a fork\n");
+		}
+		else
+		{
+			pthread_mutex_lock(philo->right_fork);
+			print_message(sim, philo->id, "has taken a fork\n");
+			pthread_mutex_lock(philo->left_fork);
+			print_message(sim, philo->id, "has taken a fork\n");
+		}
 		// eat
 		philo->last_meal_time = get_time_in_ms();
 		print_message(sim, philo->id, "is eating\n");
@@ -39,7 +49,7 @@ void	philosopher_routine(void *arg)
 		usleep(sim->time_to_sleep * 1000);
 		// think
 		print_message(sim, philo->id, "is thinking\n");
-		//usleep(100) /*optional*/
+		usleep(100); /*optional*/
 	}
 	return (NULL);
 }

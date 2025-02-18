@@ -6,7 +6,7 @@
 #    By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/30 14:28:19 by julrusse          #+#    #+#              #
-#    Updated: 2025/02/18 17:48:29 by julrusse         ###   ########.fr        #
+#    Updated: 2025/02/18 18:37:46 by julrusse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ OBJ_DIR = obj
 SRC =	main.c \
 		init.c \
 		utils.c \
-		thread.c
+		thread.c \
+		monitor.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 
