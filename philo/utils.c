@@ -6,11 +6,25 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:53:03 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/07 10:52:50 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:53:46 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_isstrnum(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!(str[i] >= '0' && str[i] <= '9'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 long	get_time_in_ms(void)
 {
@@ -22,5 +36,3 @@ long	get_time_in_ms(void)
 	ms = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 	return (ms);
 }
-
-// faie une fonction pour checker que les arguments donnes sont bien des chiffres.

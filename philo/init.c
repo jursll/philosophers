@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:28:07 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/07 11:07:41 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:24:25 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,33 @@ int	init_forks_mutex(t_simulation *sim)
 			pthread_mutex_destroy(&sim->mtx_print);
 			return (1);
 		}
+		i++;
+	}
+	return (0);
+}
+
+int	init_philosophers(t_simulation *sim, t_philosopher **philo)
+{
+	int	i;
+
+	i = 0;
+	*philo = malloc(sizeof(t_philosopher) * sim->nb_philos);
+	if (!*philo)
+	{
+		printf("Memory allocation for philosophers failed");
+		return (1);
+	}
+	while (i < sim->nb_philos)
+	{
+		(*philo)[i].id = i + 1;
+		(*philo)[i].nb_meals_eaten = 0;
+		(*philo)[i].last_meal_time = sim->start_time;
+		(*philo)[i].sim = sim;
+		(*philo)[i].right_fork = &sim->forks[i];
+		if (i == 0)
+			(*philo)[i].left_fork = &sim->forks[sim->nb_philos - 1];
+		else
+			(*philo)[i].left_fork = &sim->forks[i - 1];
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:57:05 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/07 10:53:38 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/02/18 15:29:53 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ typedef struct 		s_philosopher
 	pthread_t		thread;
 }					t_philosopher;
 
+int		ft_isstrnum(char *str);
 int		init_simulation_variables(t_simulation *sim, int ac, char **av);
 int		init_simulation_mutex(t_simulation *sim);
 int		init_forks_mutex(t_simulation *sim);
+int		init_philosophers(t_simulation *sim, t_philosopher **philo);
 
 long	get_time_in_ms(void);
 
