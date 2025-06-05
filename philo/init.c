@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:28:07 by julrusse          #+#    #+#             */
-/*   Updated: 2025/05/30 15:09:47 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:05:39 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,18 @@ int	init_simulation_mutex(t_simulation *sim)
 		printf("Error:\nMutex initialisation failed\n");
 		return (1);
 	}
+	if (pthread_mutex_init(&sim->mtx_data, NULL))
+	{
+		printf("Error:\nMutex initialisation failed\n");
+		pthread_mutex_destroy(&sim->mtx_print);
+		return (1);
+	}
 	sim->forks = malloc(sizeof(pthread_mutex_t) * sim->nb_philos);
 	if (!sim->forks)
 	{
 		printf("Error:\nMemory allocation for forks failed\n");
 		pthread_mutex_destroy(&sim->mtx_print);
+		pthread_mutex_destroy(&sim->mtx_data);
 		return (1);
 	}
 	return (0);
@@ -69,6 +76,7 @@ int	init_forks_mutex(t_simulation *sim)
 			}
 			free (sim->forks);
 			pthread_mutex_destroy(&sim->mtx_print);
+			pthread_mutex_destroy(&sim->mtx_data);
 			return (1);
 		}
 		i++;

@@ -6,13 +6,13 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 17:47:14 by julrusse          #+#    #+#             */
-/*   Updated: 2025/05/30 15:19:39 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:58:36 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static void	take_forks(t_philosopher *philo, t_simulation *sim)
+void	take_forks(t_philosopher *philo, t_simulation *sim)
 {
 	if (philo->id % 2 == 0)
 	{
@@ -30,37 +30,28 @@ static void	take_forks(t_philosopher *philo, t_simulation *sim)
 	}
 }
 
-static void	release_forks(t_philosopher *philo)
+void	release_forks(t_philosopher *philo)
 {
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
 }
 
-void	*philosopher_routine(void *arg)
+void	print_message(t_simulation *sim, int id, const char *msg)
 {
-	t_simulation	*sim;
-	t_philosopher	*philo;
+	long	time;
 
-	philo = (t_philosopher *)arg;
-	sim = philo->sim;
-	if (philo->id % 2 == 0)
-		usleep(150);
-	while (!sim->simulation_end)
+	pthread_mutex_lock(&sim->mtx_data);
+	if (sim->simulation_end)
 	{
-		take_forks(philo, sim);
-		philo->last_meal_time = get_time_in_ms();
-		print_message(sim, philo->id, "is eating");
-		sleep_with_checks(sim, sim->time_to_eat);
-		philo->nb_meals_eaten++;
-		release_forks(philo);
-		if (sim->simulation_end)
-			break ;
-		print_message(sim, philo->id, "is sleeping");
-		sleep_with_checks(sim, sim->time_to_sleep);
-		if (sim->simulation_end)
-			break ;
-		print_message(sim, philo->id, "is thinking");
-		usleep(150);
+		if (ft_strcmp(msg, "died\n") != 0)
+		{
+			pthread_mutex_unlock(&sim->mtx_data);
+			return;
+		}
 	}
-	return (NULL);
+	pthread_mutex_unlock(&sim->mtx_data);
+	pthread_mutex_lock(&sim->mtx_print);
+	time = get_time_in_ms() - sim->start_time;
+	printf("%ld %d %s\n", time, id, msg);
+	pthread_mutex_unlock(&sim->mtx_print);
 }

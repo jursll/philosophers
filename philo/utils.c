@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:53:03 by julrusse          #+#    #+#             */
-/*   Updated: 2025/05/30 15:09:01 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:03:23 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,19 @@ int	ft_isstrnum(char *str)
 	return (1);
 }
 
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	while (s1[i] && s2[i])
+	{
+		if ((unsigned char)s1[i] != (unsigned char)s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	return (0);
+}
+
 long	get_time_in_ms(void)
 {
 	struct timeval	tv;
@@ -64,16 +77,6 @@ long	get_time_in_ms(void)
 	return (ms);
 }
 
-void	print_message(t_simulation *sim, int id, const char *msg)
-{
-	long	time;
-
-	pthread_mutex_lock(&sim->mtx_print);
-	time = get_time_in_ms() - sim->start_time;
-	printf("%ld %d %s\n", time, id, msg);
-	pthread_mutex_unlock(&sim->mtx_print);
-}
-
 void	sleep_with_checks(t_simulation *sim, long sleep_time_ms)
 {
 	long	start;
@@ -81,8 +84,13 @@ void	sleep_with_checks(t_simulation *sim, long sleep_time_ms)
 	start = get_time_in_ms();
 	while ((get_time_in_ms() - start) < sleep_time_ms)
 	{
+		pthread_mutex_lock(&sim->mtx_data);
 		if (sim->simulation_end)
-			break ;
-		usleep(150);
+		{
+			pthread_mutex_unlock(&sim->mtx_data);
+			return ;
+		}
+		pthread_mutex_unlock(&sim->mtx_data);
+		usleep(50);
 	}
 }

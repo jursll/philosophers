@@ -6,23 +6,31 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 18:37:35 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 20:18:02 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:15:15 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	check_death(t_simulation *sim, t_philosopher *philos)
+static int check_death(t_simulation *sim, t_philosopher *philos)
 {
-	int	i;
+	int		i;
+	long	last;
 
 	i = 0;
 	while (i < sim->nb_philos)
 	{
-		if ((get_time_in_ms() - philos[i].last_meal_time)
-			> sim->time_to_die)
+		pthread_mutex_lock(&sim->mtx_data);
+		last = philos[i].last_meal_time;
+		pthread_mutex_unlock(&sim->mtx_data);
+		if (get_time_in_ms() - last > sim->time_to_die)
 		{
-			print_message(sim, philos[i].id, "died\n");
+			pthread_mutex_lock(&sim->mtx_print);
+			printf("%ld %d died\n", get_time_in_ms() - sim->start_time, philos[i].id);
+			pthread_mutex_unlock(&sim->mtx_print);
+			pthread_mutex_lock(&sim->mtx_data);
+			sim->simulation_end = 1;
+			pthread_mutex_unlock(&sim->mtx_data);
 			return (1);
 		}
 		i++;
@@ -30,7 +38,7 @@ static int	check_death(t_simulation *sim, t_philosopher *philos)
 	return (0);
 }
 
-static int	check_meals(t_simulation *sim, t_philosopher *philos)
+static int check_meals(t_simulation *sim, t_philosopher *philos)
 {
 	int	i;
 	int	meals_count;
@@ -41,16 +49,25 @@ static int	check_meals(t_simulation *sim, t_philosopher *philos)
 	i = 0;
 	while (i < sim->nb_philos)
 	{
-		if (philos[i].nb_meals_eaten >= sim->nb_meals)
+		pthread_mutex_lock(&sim->mtx_data);
+		int eaten = philos[i].nb_meals_eaten;
+		pthread_mutex_unlock(&sim->mtx_data);
+
+		if (eaten >= sim->nb_meals)
 			meals_count++;
 		i++;
 	}
 	if (meals_count == sim->nb_philos)
+	{
+		pthread_mutex_lock(&sim->mtx_data);
+		sim->simulation_end = 1;
+		pthread_mutex_unlock(&sim->mtx_data);
 		return (1);
+	}
 	return (0);
 }
 
-void	*monitor_routine(void *arg)
+void *monitor_routine(void *arg)
 {
 	t_monitor		*mon;
 	t_simulation	*sim;
@@ -59,19 +76,13 @@ void	*monitor_routine(void *arg)
 	mon = (t_monitor *)arg;
 	sim = mon->sim;
 	philos = mon->philos;
-	while (!sim->simulation_end)
+	while (1)
 	{
 		if (check_death(sim, philos))
-		{
-			sim->simulation_end = 1;
-			return (NULL);
-		}
+			break;
 		if (check_meals(sim, philos))
-		{
-			sim->simulation_end = 1;
-			return (NULL);
-		}
-		usleep (1000);
+			break;
+		usleep(500);
 	}
 	return (NULL);
 }

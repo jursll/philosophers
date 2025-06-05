@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:28:07 by julrusse          #+#    #+#             */
-/*   Updated: 2025/05/30 14:30:05 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/05 12:12:02 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ static void	cleanup_ressources(t_simulation *sim, t_philosopher *philo)
 		i++;
 	}
 	pthread_mutex_destroy(&sim->mtx_print);
+	pthread_mutex_destroy(&sim->mtx_data);
 	free(sim->forks);
 	free(philo);
 }
