@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:28:07 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 19:54:29 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/05/30 15:09:47 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	init_simulation_variables(t_simulation *sim, int ac, char **av)
 {
-	sim->nb_philos = atoi(av[1]);
+	sim->nb_philos = ft_atoi(av[1]);
 	if (sim->nb_philos == 1 || sim->nb_philos <= 0)
 	{
 		if (sim->nb_philos == 1)
@@ -23,11 +23,11 @@ int	init_simulation_variables(t_simulation *sim, int ac, char **av)
 			printf("Error:\nInvalid number of philosophers\n");
 		return (1);
 	}
-	sim->time_to_die = atoi(av[2]);
-	sim->time_to_eat = atoi(av[3]);
-	sim->time_to_sleep = atoi(av[4]);
+	sim->time_to_die = ft_atoi(av[2]);
+	sim->time_to_eat = ft_atoi(av[3]);
+	sim->time_to_sleep = ft_atoi(av[4]);
 	if (ac == 6)
-		sim->nb_meals = atoi(av[5]);
+		sim->nb_meals = ft_atoi(av[5]);
 	else
 		sim->nb_meals = -1;
 	sim->simulation_end = 0;

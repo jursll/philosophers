@@ -6,11 +6,36 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:53:03 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 19:52:33 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/05/30 15:09:01 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	ft_atoi(const char *str)
+{
+	int	i;
+	int	sign;
+	int	result;
+
+	i = 0;
+	sign = 1;
+	result = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign *= -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		result = (str[i] - '0') + (result * 10);
+		i++;
+	}
+	return (result * sign);
+}
 
 int	ft_isstrnum(char *str)
 {
@@ -58,6 +83,6 @@ void	sleep_with_checks(t_simulation *sim, long sleep_time_ms)
 	{
 		if (sim->simulation_end)
 			break ;
-		usleep(50);
+		usleep(150);
 	}
 }

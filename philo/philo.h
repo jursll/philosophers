@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:57:05 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 19:51:49 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/05/30 15:36:36 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_monitor
 	t_philosopher	*philos;
 }					t_monitor;
 
+int		ft_atoi(const char *str);
 int		ft_isstrnum(char *str);
 long	get_time_in_ms(void);
 int		init_simulation_variables(t_simulation *sim, int ac, char **av);

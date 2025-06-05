@@ -1,0 +1,56 @@
+1. Conditions de terminaison et simulation_end
+
+Vous testez while (!sim->simulation_end) dans chaque routine de philosophe, mais :
+
+	Accès non protégé à sim->simulation_end : vous écrivez cette variable depuis le
+	thread de surveillance et vous la lisez depuis les threads de philosophes sans mutex
+	ni volatile.
+
+	Suggestion : Rendez-la volatile sig_atomic_t ou protégez les lectures/écritures par
+	un mutex (ou atomique C11) pour éviter toute incohérence de cache.
+
+2. Affichage de la mort
+
+	Timing critique : le message “X died” doit s’afficher en ≤ 10 ms après le décès.
+	Vérifiez dans votre monitor que vous appelez print_message(sim, id, "died");
+	dès que vous détectez un dépassement de time_to_die.
+
+	Une seule annonce : stoppez immédiatement la simulation (bloquer tous les autres prints)
+	après la première mort.
+
+3. Single philosopher (--nb_philos=1)
+
+	Vous gérez ce cas dans init_simulation_variables avec un message,
+	mais vous ne lancez aucune fourchette, ni thread de mort.
+
+	Il faudrait soit :
+
+	Créer le fork, lancer le philosophe et laisser le monitor le tuer au bout de
+	time_to_die ms.
+
+	Ou quitter immédiatement après le message (mais le sujet dit la simulation s’arrête
+	sur mort).
+
+4. usleep(100) vs date réelle
+
+	Pour éviter les busy-waits, vous faites un usleep(100) dans le think et dans
+	l’init pair/impair : c’est OK, mais
+
+	Pensez à utiliser votre propre sleep_with_checks() pour qu’un philosophe ne
+	dépasse pas sa mort pendant la phase de “réflexion”.
+
+5. Éventuels data-races sur last_meal_time
+
+	Vous mettez à jour philo->last_meal_time = get_time_in_ms();
+	sans mutex dans le thread philosophe, et le monitor lit ce champ sans protection.
+
+	Suggestion : Protégez cette écriture/lecture, soit avec un mutex par philosophe,
+	soit avec atomiques.
+
+6. Vérifications des arguments
+
+	Votre ft_isstrnum n’accepte pas de “0” ; le sujet ne l’interdit pas
+	(0 ms pour manger est absurde, mais pas explicitement rejeté).
+	Assurez-vous de la consigne de votre école.
+
+

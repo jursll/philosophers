@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 17:47:14 by julrusse          #+#    #+#             */
-/*   Updated: 2025/02/18 20:07:35 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/05/30 15:19:39 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@ static void	take_forks(t_philosopher *philo, t_simulation *sim)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->left_fork);
-		print_message(sim, philo->id, "has taken a fork\n");
+		print_message(sim, philo->id, "has taken a fork");
 		pthread_mutex_lock(philo->right_fork);
-		print_message(sim, philo->id, "has taken a fork\n");
+		print_message(sim, philo->id, "has taken a fork");
 	}
 	else
 	{
 		pthread_mutex_lock(philo->right_fork);
-		print_message(sim, philo->id, "has taken a fork\n");
+		print_message(sim, philo->id, "has taken a fork");
 		pthread_mutex_lock(philo->left_fork);
-		print_message(sim, philo->id, "has taken a fork\n");
+		print_message(sim, philo->id, "has taken a fork");
 	}
 }
 
@@ -44,23 +44,23 @@ void	*philosopher_routine(void *arg)
 	philo = (t_philosopher *)arg;
 	sim = philo->sim;
 	if (philo->id % 2 == 0)
-		usleep(100);
+		usleep(150);
 	while (!sim->simulation_end)
 	{
 		take_forks(philo, sim);
 		philo->last_meal_time = get_time_in_ms();
-		print_message(sim, philo->id, "is eating\n");
+		print_message(sim, philo->id, "is eating");
 		sleep_with_checks(sim, sim->time_to_eat);
 		philo->nb_meals_eaten++;
 		release_forks(philo);
 		if (sim->simulation_end)
 			break ;
-		print_message(sim, philo->id, "is sleeping\n");
+		print_message(sim, philo->id, "is sleeping");
 		sleep_with_checks(sim, sim->time_to_sleep);
 		if (sim->simulation_end)
 			break ;
-		print_message(sim, philo->id, "is thinking\n");
-		usleep(100);
+		print_message(sim, philo->id, "is thinking");
+		usleep(150);
 	}
 	return (NULL);
 }
