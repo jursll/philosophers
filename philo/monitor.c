@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 18:37:35 by julrusse          #+#    #+#             */
-/*   Updated: 2025/06/05 17:15:15 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:51:53 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void *monitor_routine(void *arg)
 			break;
 		if (check_meals(sim, philos))
 			break;
-		usleep(500);
+		usleep(100);
 	}
 	return (NULL);
 }

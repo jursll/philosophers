@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:28:07 by julrusse          #+#    #+#             */
-/*   Updated: 2025/06/05 17:05:39 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:32:35 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,6 @@
 int	init_simulation_variables(t_simulation *sim, int ac, char **av)
 {
 	sim->nb_philos = ft_atoi(av[1]);
-	if (sim->nb_philos == 1 || sim->nb_philos <= 0)
-	{
-		if (sim->nb_philos == 1)
-			printf("Philosopher has only 1 fork and cannot eat: he died...\n");
-		else
-			printf("Error:\nInvalid number of philosophers\n");
-		return (1);
-	}
 	sim->time_to_die = ft_atoi(av[2]);
 	sim->time_to_eat = ft_atoi(av[3]);
 	sim->time_to_sleep = ft_atoi(av[4]);
@@ -32,6 +24,18 @@ int	init_simulation_variables(t_simulation *sim, int ac, char **av)
 		sim->nb_meals = -1;
 	sim->simulation_end = 0;
 	sim->start_time = get_time_in_ms();
+	if (sim->nb_philos == 1)
+	{
+		printf("0 1 has taken a fork\n");
+		usleep(sim->time_to_die * 1000);
+		printf("%ld 1 died\n", get_time_in_ms() - sim->start_time);
+		sim->simulation_end = 1;
+		return (1);
+	}
+	if (sim->nb_philos < 0)
+		return (printf("Error:\nNumber of philosophers must be positive\n"), 1);
+	if (sim->nb_philos == 0)
+		return (printf("Error:\nThere must be at least 1 philosopher\n"), 1);
 	return (0);
 }
 
@@ -39,12 +43,12 @@ int	init_simulation_mutex(t_simulation *sim)
 {
 	if (pthread_mutex_init(&sim->mtx_print, NULL))
 	{
-		printf("Error:\nMutex initialisation failed\n");
+		printf("Error:\nPrint Mutex initialisation failed\n");
 		return (1);
 	}
 	if (pthread_mutex_init(&sim->mtx_data, NULL))
 	{
-		printf("Error:\nMutex initialisation failed\n");
+		printf("Error:\nData Mutex initialisation failed\n");
 		pthread_mutex_destroy(&sim->mtx_print);
 		return (1);
 	}
@@ -116,12 +120,12 @@ int	check_inits(t_simulation *sim, t_philosopher **philo, int ac, char **av)
 	if (!ft_isstrnum(av[1]) || !ft_isstrnum(av[2])
 		|| !ft_isstrnum(av[3]) || !ft_isstrnum(av[4]))
 	{
-		printf("Error\nArguments must be numeric and positive\n");
+		printf("Error\nArguments must be non-negative integer\n");
 		return (1);
 	}
 	if (ac == 6 && !ft_isstrnum(av[5]))
 	{
-		printf("Error\nArguments must be numeric and positive\n");
+		printf("Error\nArguments must be non-negative integer\n");
 		return (1);
 	}
 	if (init_simulation_variables(sim, ac, av))

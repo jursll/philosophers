@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:28:07 by julrusse          #+#    #+#             */
-/*   Updated: 2025/06/05 12:12:02 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:23:35 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int	main(int ac, char **av)
 
 	if (ac != 5 && ac != 6)
 	{
-		printf("Usage: ./%s nb_philos die eat sleep [nb_meals]\n", av[0]);
+		printf("Usage: %s nb_philos time_to_die time_to_eat", av[0]);
+		printf(" time_to_sleep (nb_meals)\n");
 		return (1);
 	}
 	if (check_inits(&sim, &philo, ac, av))

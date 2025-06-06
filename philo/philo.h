@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 13:57:05 by julrusse          #+#    #+#             */
-/*   Updated: 2025/06/05 16:09:08 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/06 15:09:14 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
+# include <limits.h>
 
 typedef struct s_simulation
 {

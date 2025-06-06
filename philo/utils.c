@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:53:03 by julrusse          #+#    #+#             */
-/*   Updated: 2025/06/05 17:03:23 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/06 14:47:28 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,19 @@ int	ft_isstrnum(char *str)
 {
 	int	i;
 
-	i = 0;
+	if (str == NULL || *str == '\0')
+		return (0);
+	if (str[0] == '+')
+		i = 1;
+	else if (str[0] == '-')
+		return (0);
+	else
+		i = 0;
 	if (!str[i])
 		return (0);
 	while (str[i])
 	{
-		if (!(str[i] >= '0' && str[i] <= '9'))
+		if (str[i] < '0' || str[i] > '9')
 			return (0);
 		i++;
 	}
@@ -91,6 +98,7 @@ void	sleep_with_checks(t_simulation *sim, long sleep_time_ms)
 			return ;
 		}
 		pthread_mutex_unlock(&sim->mtx_data);
-		usleep(50);
+		usleep(150);
 	}
 }
+//valgrind --tool=helgrind --fair-sched=yes

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   thread.c                                           :+:      :+:    :+:   */
+/*   philosopher2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 17:47:14 by julrusse          #+#    #+#             */
-/*   Updated: 2025/06/05 15:58:36 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/06 13:33:46 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	print_message(t_simulation *sim, int id, const char *msg)
 		if (ft_strcmp(msg, "died\n") != 0)
 		{
 			pthread_mutex_unlock(&sim->mtx_data);
-			return;
+			return ;
 		}
 	}
 	pthread_mutex_unlock(&sim->mtx_data);
