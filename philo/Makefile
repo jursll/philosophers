@@ -6,7 +6,7 @@
 #    By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/30 14:28:19 by julrusse          #+#    #+#              #
-#    Updated: 2025/06/06 15:03:19 by julrusse         ###   ########.fr        #
+#    Updated: 2025/06/10 12:10:19 by julrusse         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC =	main.c \
 		utils.c \
 		philosopher.c \
 		philosopher2.c \
-		monitor2.c
+		monitor.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 

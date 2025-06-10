@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/18 18:37:35 by julrusse          #+#    #+#             */
-/*   Updated: 2025/06/06 14:51:53 by julrusse         ###   ########.fr       */
+/*   Created: 2025/06/06 15:09:19 by julrusse          #+#    #+#             */
+/*   Updated: 2025/06/10 12:42:02 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int check_death(t_simulation *sim, t_philosopher *philos)
+static int	check_death(t_simulation *sim, t_philosopher *philos)
 {
 	int		i;
 	long	last;
@@ -26,7 +26,8 @@ static int check_death(t_simulation *sim, t_philosopher *philos)
 		if (get_time_in_ms() - last > sim->time_to_die)
 		{
 			pthread_mutex_lock(&sim->mtx_print);
-			printf("%ld %d died\n", get_time_in_ms() - sim->start_time, philos[i].id);
+			printf("%ld %d died\n", get_time_in_ms() - sim->start_time,
+				philos[i].id);
 			pthread_mutex_unlock(&sim->mtx_print);
 			pthread_mutex_lock(&sim->mtx_data);
 			sim->simulation_end = 1;
@@ -38,10 +39,11 @@ static int check_death(t_simulation *sim, t_philosopher *philos)
 	return (0);
 }
 
-static int check_meals(t_simulation *sim, t_philosopher *philos)
+static int	check_meals(t_simulation *sim, t_philosopher *philos)
 {
 	int	i;
 	int	meals_count;
+	int	eaten;
 
 	if (sim->nb_meals == -1)
 		return (0);
@@ -50,9 +52,8 @@ static int check_meals(t_simulation *sim, t_philosopher *philos)
 	while (i < sim->nb_philos)
 	{
 		pthread_mutex_lock(&sim->mtx_data);
-		int eaten = philos[i].nb_meals_eaten;
+		eaten = philos[i].nb_meals_eaten;
 		pthread_mutex_unlock(&sim->mtx_data);
-
 		if (eaten >= sim->nb_meals)
 			meals_count++;
 		i++;
@@ -67,7 +68,7 @@ static int check_meals(t_simulation *sim, t_philosopher *philos)
 	return (0);
 }
 
-void *monitor_routine(void *arg)
+void	*monitor_routine(void *arg)
 {
 	t_monitor		*mon;
 	t_simulation	*sim;
@@ -79,9 +80,9 @@ void *monitor_routine(void *arg)
 	while (1)
 	{
 		if (check_death(sim, philos))
-			break;
+			break ;
 		if (check_meals(sim, philos))
-			break;
+			break ;
 		usleep(100);
 	}
 	return (NULL);

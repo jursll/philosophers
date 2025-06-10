@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 15:52:24 by julrusse          #+#    #+#             */
-/*   Updated: 2025/06/05 16:25:26 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/10 12:11:08 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_simulation_end(t_simulation *sim)
 {
-	int ended;
+	int	ended;
 
 	pthread_mutex_lock(&sim->mtx_data);
 	ended = sim->simulation_end;
