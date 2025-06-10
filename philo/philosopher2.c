@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/18 17:47:14 by julrusse          #+#    #+#             */
-/*   Updated: 2025/06/06 13:33:46 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:11:01 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,15 @@ void	print_message(t_simulation *sim, int id, const char *msg)
 {
 	long	time;
 
+	pthread_mutex_lock(&sim->mtx_print);
 	pthread_mutex_lock(&sim->mtx_data);
-	if (sim->simulation_end)
+	if (!sim->simulation_end || ft_strcmp(msg, "died") == 0)
 	{
-		if (ft_strcmp(msg, "died\n") != 0)
-		{
-			pthread_mutex_unlock(&sim->mtx_data);
-			return ;
-		}
+		time = get_time_in_ms() - sim->start_time;
+		printf("%ld %d %s\n", time, id, msg);
+		if (ft_strcmp(msg, "died") == 0)
+			sim->simulation_end = 1;
 	}
 	pthread_mutex_unlock(&sim->mtx_data);
-	pthread_mutex_lock(&sim->mtx_print);
-	time = get_time_in_ms() - sim->start_time;
-	printf("%ld %d %s\n", time, id, msg);
 	pthread_mutex_unlock(&sim->mtx_print);
 }

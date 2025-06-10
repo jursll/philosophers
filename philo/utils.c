@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 14:53:03 by julrusse          #+#    #+#             */
-/*   Updated: 2025/06/10 12:00:55 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:09:04 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	ft_strcmp(const char *s1, const char *s2)
 	{
 		if ((unsigned char)s1[i] != (unsigned char)s2[i])
 			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
 	}
 	return (0);
 }

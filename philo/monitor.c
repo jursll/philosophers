@@ -6,7 +6,7 @@
 /*   By: julrusse <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 15:09:19 by julrusse          #+#    #+#             */
-/*   Updated: 2025/06/10 12:42:02 by julrusse         ###   ########.fr       */
+/*   Updated: 2025/06/10 14:06:15 by julrusse         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,7 @@ static int	check_death(t_simulation *sim, t_philosopher *philos)
 		pthread_mutex_unlock(&sim->mtx_data);
 		if (get_time_in_ms() - last > sim->time_to_die)
 		{
-			pthread_mutex_lock(&sim->mtx_print);
-			printf("%ld %d died\n", get_time_in_ms() - sim->start_time,
-				philos[i].id);
-			pthread_mutex_unlock(&sim->mtx_print);
-			pthread_mutex_lock(&sim->mtx_data);
-			sim->simulation_end = 1;
-			pthread_mutex_unlock(&sim->mtx_data);
+			print_message(sim, philos[i].id, "died");
 			return (1);
 		}
 		i++;
@@ -77,7 +71,7 @@ void	*monitor_routine(void *arg)
 	mon = (t_monitor *)arg;
 	sim = mon->sim;
 	philos = mon->philos;
-	while (1)
+	while (!sim->simulation_end)
 	{
 		if (check_death(sim, philos))
 			break ;
